@@ -34,7 +34,7 @@ btn.addEventListener("click", () => {
 
 
 async function searchsong(inpttext) {
-    const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
+   try{ const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
 
     const data = await searchresult.json();
 
@@ -42,10 +42,14 @@ async function searchsong(inpttext) {
     const waiting=
     
     showresults(data);
+    }catch(error){
+    lyrics.innerHTML="cant load the data right now  check the internet";
+        }
 }
 
 //by searching showing result
 function showresults(data) {
+    
 
     lyrics.innerHTML = `<ul class="song">${data.data.map(elem => `<li class="songs"><div> ${elem.artist.name}----
                                     ${elem.title}
