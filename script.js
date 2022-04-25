@@ -34,22 +34,21 @@ btn.addEventListener("click", () => {
 
 
 async function searchsong(inpttext) {
-   try{ const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
+    try {
+        const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
 
-    const data = await searchresult.json();
+        const data = await searchresult.json();
 
-    console.log(data);
-    const waiting=
-    
-    showresults(data);
-    }catch(error){
-    lyrics.innerHTML="cant load the data right now  check the internet";
-        }
+        console.log(data);
+        const waiting = showresults(data);
+    } catch (error) {
+        lyrics.innerHTML = "cant load the data right now  check the internet";
+    }
 }
 
 //by searching showing result
 function showresults(data) {
-    
+
 
     lyrics.innerHTML = `<ul class="song">${data.data.map(elem => `<li class="songs"><div> ${elem.artist.name}----
                                     ${elem.title}
@@ -65,15 +64,15 @@ function showresults(data) {
 //i gave a attribute name to the span then if i cilck on that it should retrurn artis name and 
 //title of the song and with thst iam  calling api with the artist name and etc and get the lyrics
 lyrics.addEventListener("click", (e) => {
-    
+
     const clickedelement = e.target;
-    
+
     if (clickedelement.tagName === "SPAN") {
-     
+
         const artist = clickedelement.getAttribute("data-artist");
-     
+
         const songtitle = clickedelement.getAttribute("data-songtitle");
-      
+
         getlyrics(artist, songtitle)
     }
 })
@@ -83,20 +82,20 @@ lyrics.addEventListener("click", (e) => {
 //getting lyrics getlyrics funtion to fetch the lyrics
 
 async function getlyrics(artist, songtitle) {
-    try{
-    const response = await fetch(`${apiUrl}/v1/${artist}/${songtitle}`)
-    
-    const data = await response.json();
-    
-    const finallyrics = data.lyrics.replace(/(\r\n|\r|\n)/g,"<br>");
-    
-    console.log(finallyrics);
-    //replacing the old list with new lyrics
+    try {
+        const response = await fetch(`${apiUrl}/v1/${artist}/${songtitle}`)
 
-    lyrics.innerHTML=`<h2><strong>${artist}</strong>--${songtitle}</h2>
+        const data = await response.json();
+
+        const finallyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, "<br>");
+
+        console.log(finallyrics);
+        //replacing the old list with new lyrics
+
+        lyrics.innerHTML = `<h2><strong>${artist}</strong>--${songtitle}</h2>
      
     <p class="oglyrics">${finallyrics}</p>`
-    }catch(error){
-        lyrics.innerHTML="<h1>opps......cant find the song lyrics</h1>";
+    } catch (error) {
+        lyrics.innerHTML = "<h1>opps......cant find the song lyrics</h1>";
     }
 }
