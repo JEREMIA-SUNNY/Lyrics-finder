@@ -12,37 +12,40 @@ let inpttext = "";
 //event listener on input
 inpt.addEventListener("change", (e) => {
 
-    inpttext = e.target.value;
+                                inpttext = e.target.value;
 
-    console.log(inpttext);
+                                console.log(inpttext);
 })
 
 ///click listner on button
 btn.addEventListener("click", () => {
 
-    if (inpttext == "") {
+                                    if (inpttext == "") {
 
-        alert("Eter the  song name and submit")
-    }
+                                        alert("Eter the  song name and submit")
+                                    }
 
-    else {
-        searchsong(inpttext);
+                                    else {
 
-    }
+                                        
+                                        lyrics.innerHTML = `<div id="loader"></div >`;
+                                        searchsong(inpttext);
+                                        }
 
 })
 
 
 async function searchsong(inpttext) {
     try {
-        const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
+                                    const searchresult = await fetch(`${apiUrl}/suggest/${inpttext}`)
 
-        const data = await searchresult.json();
+                                    const data = await searchresult.json();
 
-        console.log(data);
-        const waiting = showresults(data);
+                                    console.log(data);
+                                    const waiting = showresults(data);
     } catch (error) {
-        lyrics.innerHTML = "cant load the data right now  check the internet";
+                                    
+                                    lyrics.innerHTML = "cant load the data right now  check the internet";
     }
 }
 
@@ -65,16 +68,17 @@ function showresults(data) {
 //title of the song and with thst iam  calling api with the artist name and etc and get the lyrics
 lyrics.addEventListener("click", (e) => {
 
-    const clickedelement = e.target;
+                        const clickedelement = e.target;
 
-    if (clickedelement.tagName === "SPAN") {
+                        if (clickedelement.tagName === "SPAN") {
 
-        const artist = clickedelement.getAttribute("data-artist");
+                                    const artist = clickedelement.getAttribute("data-artist");
 
-        const songtitle = clickedelement.getAttribute("data-songtitle");
-
-        getlyrics(artist, songtitle)
-    }
+                                    const songtitle = clickedelement.getAttribute("data-songtitle");
+                                    lyrics.innerHTML = `<div id="loader2"></div >`;
+                                    getlyrics(artist, songtitle)
+                                    
+                                                            }
 })
 
 
@@ -83,19 +87,27 @@ lyrics.addEventListener("click", (e) => {
 
 async function getlyrics(artist, songtitle) {
     try {
-        const response = await fetch(`${apiUrl}/v1/${artist}/${songtitle}`)
+                                const response = await fetch(`${apiUrl}/v1/${artist}/${songtitle}`)
 
-        const data = await response.json();
+                                const data = await response.json();
 
-        const finallyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, "<br>");
+                                const finallyrics = data.lyrics.replace(/(\r\n|\r|\n)/g, "<br>");
 
-        console.log(finallyrics);
-        //replacing the old list with new lyrics
+                                console.log(finallyrics);
+                                //replacing the old list with new lyrics
+                                
+                               
 
-        lyrics.innerHTML = `<h2><strong>${artist}</strong>--${songtitle}</h2>
-     
-    <p class="oglyrics">${finallyrics}</p>`
-    } catch (error) {
-        lyrics.innerHTML = "<h1>opps......cant find the song lyrics</h1>";
-    }
+                                lyrics.innerHTML = `<h2><strong>${artist}</strong>--${songtitle}</h2>
+                            
+                            <p class="oglyrics">${finallyrics}</p>`
+
+
+                            
+
+
+                            } 
+    catch (error) {
+                                lyrics.innerHTML = "<h1>opps......cant find the song lyrics</h1>";
+                            }
 }
