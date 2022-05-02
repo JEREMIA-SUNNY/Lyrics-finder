@@ -22,7 +22,7 @@ btn.addEventListener("click", () => {
 
                                     if (inpttext == "") {
 
-                                        alert("Eter the  song name and submit")
+                                        alert("Enter the  song name and submit")
                                     }
 
                                     else {
